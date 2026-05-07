@@ -29,5 +29,8 @@ class Cable{
 		this.endSocket = endSocket;
 		this.color = color;
 		this.lenghtLimit = lenghtLimit;
+
+		this.dragX = startSocket.x;
+		this.dragY = startSocket.y;
 	}
 }

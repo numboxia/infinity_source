@@ -59,6 +59,41 @@ function update(){
 
 function draw(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	ctx.lineWidth = 5;
+	cables.forEach(cable => {
+		ctx.strokeStyle = cable.color === COLORS.NONE ? '#555555' : '#' + cable.color.toString(16).padStart(6, '0');
+
+		ctx.beginPath();
+		ctx.moveTo(cable.startSocket.x, cable.startSocket.y);
+
+		if(cable.endSocket){
+			ctx.lineTo(cable.endSocket.x, cable.endSocket.y);
+		}
+		else{
+			ctx.lineTo(cable.dragX, cable.dragY);
+		}
+		ctx.stroke();
+	});
+
+	powerStrips.forEach(strip => {
+		ctx.fillStyle = strip.type === 'source' ? '#333333' : '#8B5A2B'; // renk ayarlama kısımlarını sonra kontrol et
+		ctx.fillRect(strip.x, strip.y, strip.width, strip.height);
+
+		ctx.fillStyle = strip.currentColor === COLORS.NONE ? '#999999' : '#' + strip.currentColor.toString(16).padStart(6, '0');
+		ctx.fillRect(strip.x + strip.width - 40, strip.y + 10, 30, strip.height - 20);
+
+		strip.sockets.forEach(socket => {
+			ctx.fillStyle = '#FFFFFF';
+			ctx.beginPath();
+			ctx.arc(socket.x, socket.y, socket.radius, 0, Math.PI * 2);
+			ctx.fill();
+			ctx.strokeStyle = '#000000';
+			ctx.lineWidth = 2;
+			ctx.stroke();
+		});
+		
+	});
 }
 
 function gameLoop(){
@@ -68,7 +103,16 @@ function gameLoop(){
 }
 
 canvas.addEventListener('mousedown', (e) => {
+	const pos = getMousePos(e);
+	const clickedSocket = getClickedSocket(pos.x, pos.y);
 
+	if(clickedSocket){
+		isDragging = true;
+		currentDragCable = new Cable(clickedSocket);
+		currentDragCable.dragX = pos.x;
+		currentDragCable.dragY = pos.y;
+		cables.push(currentDragCable);
+	}
 });
 
 canvas.addEventListener('mouseup', (e) => {
@@ -91,7 +135,11 @@ canvas.addEventListener('mouseup', (e) => {
 });
 
 canvas.addEventListener('mousemove', (e) => {
-
+	if(isDragging && currentDragCable){
+		const pos = getMousePos(e);
+		currentDragCable.dragX = pos.x;
+		currentDragCable.dragY = pos.y;
+	}
 });
 
 function getMousePos(e) {
