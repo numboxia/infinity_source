@@ -21,9 +21,11 @@ let currentDragCable = null;
 
 function update(){
 	powerStrips.forEach(strip => {
+		strip.previousColor = strip.currentColor;
 		if(strip.type !== 'source'){
 			strip.currentColor = COLORS.NONE;
 			strip.incomingColors = [];
+			strip.isSelfSustaining = false;
 		}
 	});
 
@@ -53,6 +55,42 @@ function update(){
 					}
 				}
 			}
+		}
+	}
+
+	let potentialLoopStrips = powerStrips.filter(strip =>
+		strip.type !== 'source' &&
+		strip.currentColor === COLORS.NONE &&
+		strip.previousColor !== COLORS.NONE
+	);
+
+	function findCycle(startStrip, currentStrip, visited){
+		if(visited.includes(currentStrip)){
+			return currentStrip === startStrip;
+		}
+
+		visited.push(currentStrip);
+
+		for(let socket of currentStrip.sockets){
+			if(socket.connection && socket.connection.startSocket === socket && socket.connection.endSocket){
+				let nextStrip = socket.connection.endSocket.parentStrip;
+
+				if(findCycle(startStrip, nextStrip, [...visited])){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	for(let strip of potentialLoopStrips){
+		if(!strip.isSelfSustaining && findCycle(strip, strip, [])){
+			strip.currentColor = strip.previousColor;
+			strip.isSelfSustaining = true;
+
+
+
+
 		}
 	}
 }
@@ -121,10 +159,20 @@ canvas.addEventListener('mouseup', (e) => {
 		const droppedSocket = getClickedSocket(pos.x, pos.y);
 
 		if(droppedSocket && droppedSocket !== currentDragCable.startSocket){
-			currentDragCable.endSocket = droppedSocket;
+			const dx = droppedSocket.x - currentDragCable.startSocket.x;
+			const dy = droppedSocket.y - currentDragCable.startSocket.y;
+			const distance = Math.sqrt(dx * dx + dy * dy);
 
-			currentDragCable.startSocket.connection = currentDragCable;
-			droppedSocket.connection = currentDragCable;
+			const isTargetSource = droppedSocket.parentStrip.type ==='source';
+
+			if(distance <= currentDragCable.lengthLimit && !isTargetSource){
+				currentDragCable.endSocket = droppedSocket;
+				currentDragCable.startSocket.connection = currentDragCable;
+				droppedSocket.connection = currentDragCable;
+			}
+			else{
+				cables = cables.filter(cable => cable !== currentDragCable);
+			}
 		}
 		else{
 			cables = cables.filter(cable => cable !== currentDragCable);
