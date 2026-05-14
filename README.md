@@ -12,22 +12,28 @@ Bu proje, kısıtlı sürede geliştirilen bağımsız bir "Game Jam" oyununun t
 Oyunun temel amacı, ekrandaki tüm çoklu prizleri ana elektrik şebekesinden bağımsız, kendi kendine yeten (sonsuz enerji) kapalı enerji döngüleri haline getirmektir.
 
 ![Oyun Başlangıç Seviyesi](assets/screenshots/first_level.png)
+*Bölüm başlangıcında enerji bekleyen prizler ve şebekeye bağlı ana güç kaynaklarının genel görünümü.*
 
 ![Ana Güç Kaynağı Örneği](assets/screenshots/source_strip.png)
+*Sisteme dışarıdan enerji sağlayan ve bölümü bitirmek için fişlerinin tamamen çekilmesi gereken ana güç kaynağı.*
 
 ![Sınırsız Enerji Örneği](assets/screenshots/infinite_energy.png)
+*Ana şebekeden bağlantısı koparılmış, kendi kendine yeten başarılı bir sonsuz enerji döngüsü.*
 
 * Fişler sadece kablo menzili içindeki yuvalara bağlanabilir.
 
 * Her prizin beklenen rengi olabilir. İstisna olarak prizin rengi gri ise herhangi bir rengin sonsuz enerjisi yeterli olacaktır.
 ![Beklenen Rengi Kırmızı Olan Bir Priz](assets/screenshots/expectedColor_red.png)
+*Çalışabilmek için spesifik olarak kırmızı renkli enerjiye ihtiyaç duyan bir priz.*
 
 ![Beklenen Rengi Olmayan Bir Priz](assets/screenshots/grey_strip.png)
+*Herhangi bir renkteki enerji döngüsüyle çalışabilen renk beklentisi olmayan nötr (gri) priz.*
 
 * Güç akışı tek yönlüdür; enerji her zaman bir kaynaktan diğerine doğru akar.
 
 * Bazı prizlerin çalışabilmesi için özel renklerde (RGB karışımları) enerjiye ihtiyacı vardır. Gerekli rengi elde etmek için farklı renkteki akımları doğru prizlerde birleştirerek yeni renkler oluşturmalısınız.
 ![Beklenen Rengi Ara Renk (Mor) Olan Bir Priz](assets/screenshots/expectedColor_purple.png)
+*Kırmızı ve mavi akımların birleştirilmesiyle elde edilen ara renk (mor) enerjiyi bekleyen özel priz.*
 
 * Bölümü geçmek için tüm prizlerin istenen renkte enerjiye sahip olması ve duvardaki ana kaynakların fişlerinin tamamen çekilmiş olması gerekir.
 
