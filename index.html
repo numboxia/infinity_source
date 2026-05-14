@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Energy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container">
+        
+        <div id="mainMenu" class="overlay">
+            <h1>INFINITE ENERGY</h1>
+            <p>Sonsuz enerji döngüsünü kur!</p>
+            <button id="startBtn">OYUNA BAŞLA</button>
+        </div>
+	<div id="transitionScreen" class="transition-overlay hidden">
+            <h2 id="levelText">Bölüm 2</h2>
+        </div>
+	<div id="victoryScreen" class="overlay hidden">
+            <h1 style="color: #2ecc71;">TEBRİKLER!</h1>
+            <p>Tüm enerjiyi başarıyla yönettin ve oyunu bitirdin!</p>
+            <button id="restartBtn">YENİDEN OYNA</button>
+        </div>
+
+        <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <script src="js/objects.js"></script> 
+    <script src="js/levels.js"></script>  
+    <script src="js/main.js"></script>    
+</body>
+</html>
